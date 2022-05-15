@@ -8,8 +8,12 @@ export class AppService {
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
 
-  getHello(): string {
-    const apiKey = this.configService.app.apikey;
-    return 'Hello World!' + apiKey;
+  getHealth(): any {
+    const env = this.configService.app.env;
+    return {
+      api: 'PostVenta',
+      version: '1.0',
+      env,
+    };
   }
 }
