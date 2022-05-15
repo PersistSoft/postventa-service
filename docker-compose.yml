@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=postventa
+      - POSTGRES_USER=postventa
+      - POSTGRES_PASSWORD=postventa
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postventa_database:/var/lib/postgresql/ date
+
