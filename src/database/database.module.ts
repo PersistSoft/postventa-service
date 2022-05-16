@@ -19,6 +19,8 @@ import config from '../config';
           username,
           password,
           database,
+          synchronize: true,
+          autoLoadEntities: true,
         } as DataSourceOptions;
       },
     }),
