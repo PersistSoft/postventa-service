@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { PostventaModule } from './postventa/postventa.module';
 import { environments } from './environments';
+import { DatabaseModule } from './database/database.module';
 import config from './config';
 
 @Module({
@@ -26,6 +27,7 @@ import config from './config';
     }),
     UserModule,
     PostventaModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
