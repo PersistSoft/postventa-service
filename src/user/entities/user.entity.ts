@@ -1,4 +1,10 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -11,10 +17,12 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   password: string;
 
-  @Column({ type: 'varchar', length: 10 })
+  @Column({ type: 'varchar', length: 10, default: 'active' })
   status: string;
 
+  @CreateDateColumn()
   created_at: Date;
 
+  @UpdateDateColumn()
   updated_at: Date;
 }

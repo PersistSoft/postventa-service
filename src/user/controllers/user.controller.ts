@@ -1,5 +1,15 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { UserService } from '../services/user.service';
 
 @ApiTags('User module')
@@ -12,8 +22,21 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get('/:id')
+  @Post()
+  create(@Body() userDto: CreateUserDto) {
+    return this.userService.create(userDto);
+  }
+
+  @Put('/:id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() userDto: UpdateUserDto,
+  ) {
+    return this.userService.update(id, userDto);
+  }
+
+  @Delete('/:id')
   findById(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.findById(id);
+    return this.userService.deleteById(id);
   }
 }

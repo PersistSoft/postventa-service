@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
+import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 
 @Injectable()
 export class UserService {
@@ -13,20 +14,26 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findById(id: number) {
-    const user = this.userRepository.find({ where: { id } });
-    if (user) {
+  async findById(id: number) {
+    const user = await this.userRepository.findOneBy({ id: id });
+    if (!user) {
       throw `User with id: ${id} does't found. `;
     }
 
-    return this.userRepository.find({ where: { id } });
+    return user;
   }
 
-  create(user: User) {
+  create(user: CreateUserDto) {
     return this.userRepository.save(user);
   }
 
   deleteById(id: number) {
     return this.userRepository.delete(id);
+  }
+
+  async update(id: number, userDto: UpdateUserDto) {
+    const user = await this.userRepository.findOneBy({ id });
+    this.userRepository.merge(user, userDto);
+    return this.userRepository.save(user);
   }
 }
