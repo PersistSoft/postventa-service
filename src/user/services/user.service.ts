@@ -3,11 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
+import { RoleService } from './role.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private roleService: RoleService,
   ) {}
 
   findAll() {
@@ -23,8 +25,15 @@ export class UserService {
     return user;
   }
 
-  create(user: CreateUserDto) {
-    return this.userRepository.save(user);
+  async create(user: CreateUserDto) {
+    const newUser = this.userRepository.create(user);
+
+    if (user.roleIds) {
+      const roles = await this.roleService.findByIds(user.roleIds);
+      newUser.roles = roles;
+    }
+
+    return this.userRepository.save(newUser);
   }
 
   deleteById(id: number) {

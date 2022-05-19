@@ -1,4 +1,3 @@
-import { resolveSoa } from 'dns';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 import { Role } from './role.entity';
 
@@ -7,7 +6,7 @@ export class Permission {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 10, unique: true })
+  @Column({ type: 'varchar', length: 20, unique: true })
   code: string;
 
   @Column({ type: 'varchar', length: 100 })
