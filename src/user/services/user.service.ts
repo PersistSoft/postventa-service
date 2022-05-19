@@ -15,7 +15,7 @@ export class UserService {
   }
 
   async findById(id: number) {
-    const user = await this.userRepository.findOneBy({ id: id });
+    const user = await this.userRepository.findOne({ id: id });
     if (!user) {
       throw `User with id: ${id} does't found. `;
     }
@@ -32,7 +32,7 @@ export class UserService {
   }
 
   async update(id: number, userDto: UpdateUserDto) {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({ id });
     this.userRepository.merge(user, userDto);
     return this.userRepository.save(user);
   }

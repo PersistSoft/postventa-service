@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSourceOptions } from 'typeorm';
+import { ConnectionOptions } from 'typeorm';
 import config from '../config';
 
 @Global()
@@ -21,7 +21,7 @@ import config from '../config';
           database,
           synchronize: true,
           autoLoadEntities: true,
-        } as DataSourceOptions;
+        } as ConnectionOptions;
       },
     }),
   ],

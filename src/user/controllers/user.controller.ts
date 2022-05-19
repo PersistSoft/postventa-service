@@ -27,6 +27,11 @@ export class UserController {
     return this.userService.create(userDto);
   }
 
+  @Get('/:id')
+  getById(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findById(id);
+  }
+
   @Put('/:id')
   update(
     @Param('id', ParseIntPipe) id: number,

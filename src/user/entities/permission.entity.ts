@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { resolveSoa } from 'dns';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Role } from './role.entity';
 
 @Entity('permissions')
 export class Permission {
@@ -10,4 +12,7 @@ export class Permission {
 
   @Column({ type: 'varchar', length: 100 })
   description: string;
+
+  @ManyToMany(() => Role, (role) => role.permissions)
+  roles: Role;
 }
