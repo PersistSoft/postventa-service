@@ -7,9 +7,11 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
+import { UserFilterDto } from '../dtos/user.filter.dto';
 import { UserService } from '../services/user.service';
 
 @ApiTags('User module')
@@ -18,8 +20,8 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() params: UserFilterDto) {
+    return this.userService.findAll(params);
   }
 
   @Post()

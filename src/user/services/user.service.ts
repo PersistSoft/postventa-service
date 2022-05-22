@@ -4,6 +4,7 @@ import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { RoleService } from './role.service';
+import { UserFilterDto } from '../dtos/user.filter.dto';
 
 @Injectable()
 export class UserService {
@@ -12,7 +13,12 @@ export class UserService {
     private roleService: RoleService,
   ) {}
 
-  findAll() {
+  findAll(params?: UserFilterDto) {
+    if (params) {
+      const { limit, offset } = params;
+      return this.userRepository.find({ take: limit, skip: offset });
+    }
+
     return this.userRepository.find();
   }
 

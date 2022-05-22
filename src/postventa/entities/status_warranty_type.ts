@@ -1,1 +1,36 @@
-export class StatusWarrantyType {}
+import { Exclude } from 'class-transformer';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  UpdateDateColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+
+@Entity('status_warranty_types')
+export class StatusWarrantyType {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'varchar', length: 5, unique: true })
+  code: string;
+
+  @Column({ type: 'varchar', length: 50 })
+  name: string;
+
+  @Exclude()
+  @CreateDateColumn({
+    name: 'creation_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+
+  @Exclude()
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
+}

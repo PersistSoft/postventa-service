@@ -5,8 +5,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('warranty_history')
-export class WarrantyHistory {
+@Entity('warranty_type_history')
+export class WarrantyTypeHistory {
   @PrimaryGeneratedColumn()
   id: number;
 
