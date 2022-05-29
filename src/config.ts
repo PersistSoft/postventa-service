@@ -1,5 +1,4 @@
 import { registerAs } from '@nestjs/config';
-import passport from 'passport';
 
 export default registerAs('config', () => {
   return {

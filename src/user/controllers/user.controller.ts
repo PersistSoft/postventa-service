@@ -17,9 +17,9 @@ import { UserService } from '../services/user.service';
 
 import { Public } from '../../auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RoleCodeEnum } from 'src/auth/model/roles.model';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('User module')
@@ -27,6 +27,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Roles(RoleCodeEnum.ADMIN)
   @Public()
   @Get()
   findAll(@Query() params: UserFilterDto) {
