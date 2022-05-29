@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config';
+import passport from 'passport';
 
 export default registerAs('config', () => {
   return {
@@ -12,6 +13,8 @@ export default registerAs('config', () => {
     },
     app: {
       env: process.env.ENV,
+      apikey: process.env.API_KEY,
+      jwtSecret: process.env.JWT_SECRET,
     },
   };
 });

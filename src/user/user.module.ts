@@ -15,5 +15,6 @@ import { RoleController } from './controllers/role.controller';
   imports: [TypeOrmModule.forFeature([User, Role, Permission])],
   providers: [UserService, RoleService, PermissionService],
   controllers: [UserController, PermissionController, RoleController],
+  exports: [UserService],
 })
 export class UserModule {}

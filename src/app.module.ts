@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { PostventaModule } from './postventa/postventa.module';
 import { environments } from './environments';
 import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './auth/auth.module';
 import config from './config';
 
 @Module({
@@ -23,11 +24,13 @@ import config from './config';
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_HOST: Joi.string().required(),
         ENV: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
       }),
     }),
     UserModule,
     PostventaModule,
     DatabaseModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

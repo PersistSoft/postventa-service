@@ -8,17 +8,26 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { UserFilterDto } from '../dtos/user.filter.dto';
 import { UserService } from '../services/user.service';
 
+import { Public } from '../../auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RoleCodeEnum } from 'src/auth/model/roles.model';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('User module')
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Public()
   @Get()
   findAll(@Query() params: UserFilterDto) {
     return this.userService.findAll(params);
