@@ -1,4 +1,4 @@
-import { WarrantyTypeFile } from './warranty_type_file';
+import { WarrantyTypeFile } from './warranty_type_file.entity';
 
 describe('WarrantyTypeFile', () => {
   it('should be defined', () => {

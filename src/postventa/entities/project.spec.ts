@@ -1,4 +1,4 @@
-import { Project } from './project';
+import { Project } from './project.entity';
 
 describe('Project', () => {
   it('should be defined', () => {

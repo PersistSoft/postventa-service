@@ -1,4 +1,4 @@
-import { Type } from './type';
+import { Type } from './type.entity';
 
 describe('Type', () => {
   it('should be defined', () => {

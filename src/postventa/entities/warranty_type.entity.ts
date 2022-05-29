@@ -1,6 +1,5 @@
 import { Exclude } from 'class-transformer';
 import {
-  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
@@ -8,22 +7,26 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Project } from './project';
+import { StatusWarrantyType } from './status_warranty_type.entity';
+import { Type } from './type.entity';
+import { Warranty } from './warranty.entity';
 
-@Entity('buildings')
-export class Building {
+@Entity('warranty_type')
+export class WarrantyType {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 50, default: 'active' })
-  name: string;
+  @ManyToOne(() => Warranty)
+  @JoinColumn({ name: 'warranty_id' })
+  warranty: Warranty;
 
-  @Column({ name: 'number_of_appartments' })
-  numberOfAppartments: number;
+  @ManyToOne(() => Type)
+  @JoinColumn({ name: 'type_id' })
+  type: Type;
 
-  @ManyToOne(() => Project)
-  @JoinColumn({ name: 'project_id' })
-  project: Project;
+  @ManyToOne(() => StatusWarrantyType)
+  @JoinColumn({ name: 'status_warranty_type_id' })
+  statusWarrantyType: StatusWarrantyType;
 
   @Exclude()
   @CreateDateColumn({

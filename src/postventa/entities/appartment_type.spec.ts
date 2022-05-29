@@ -1,4 +1,4 @@
-import { AppartmentType } from './appartment_type';
+import { AppartmentType } from './appartment_type.entity';
 
 describe('AppartmentType', () => {
   it('should be defined', () => {

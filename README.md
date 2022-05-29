@@ -29,6 +29,16 @@ To stop the container use:
 $ docker-compose down
 ```
 
+Now is necessary execute the migration to create the tables
+```bash
+$ npm run migrations:run
+```
+
+If you addnew change on the data base you should generate a new migration.
+```bash
+$ npm run migrations:generate -- dml-talble-name
+```
+
 ## Environments variables configuration to develop
 Use the example file as example environment.example
 

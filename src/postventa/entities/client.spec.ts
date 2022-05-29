@@ -1,4 +1,4 @@
-import { Client } from './client';
+import { Client } from './client.entity';
 
 describe('Client', () => {
   it('should be defined', () => {

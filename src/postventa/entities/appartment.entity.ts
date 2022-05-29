@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { AppartmentType } from './appartment_type';
-import { Building } from './building';
-import { Parking } from './parking';
-import { UnitStorage } from './unit_storage';
+import { AppartmentType } from './appartment_type.entity';
+import { Building } from './building.entity';
+import { Parking } from './parking.entity';
+import { UnitStorage } from './unit_storage.entity';
 
 @Entity('appartments')
 export class Appartment {

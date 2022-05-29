@@ -7,10 +7,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Appartment } from './appartment';
-import { Client } from './client';
-import { Files } from './file';
-import { WarrantyStatus } from './warranty_status';
+import { Appartment } from './appartment.entity';
+import { Client } from './client.entity';
+import { Files } from './file.entity';
+import { WarrantyStatus } from './warranty_status.entity';
 
 @Entity('warranties')
 export class Warranty {

@@ -1,4 +1,4 @@
-import { WarrantyStatus } from './warranty_status';
+import { WarrantyStatus } from './warranty_status.entity';
 
 describe('WarrantyStatus', () => {
   it('should be defined', () => {

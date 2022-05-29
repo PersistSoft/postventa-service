@@ -1,6 +1,5 @@
 import { Exclude } from 'class-transformer';
 import {
-  Binary,
   Column,
   CreateDateColumn,
   Entity,

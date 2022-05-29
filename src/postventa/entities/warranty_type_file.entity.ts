@@ -1,6 +1,6 @@
 import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Files } from './file';
-import { WarrantyType } from './warranty_type';
+import { Files } from './file.entity';
+import { WarrantyType } from './warranty_type.entity';
 
 @Entity('warranty_type_file')
 export class WarrantyTypeFile {

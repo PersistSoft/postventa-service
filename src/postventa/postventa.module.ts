@@ -30,21 +30,21 @@ import { WarrantyTypeFileController } from './controllers/warranty_type_file.con
 import { WarrantyTypeController } from './controllers/warranty_type.controller';
 import { WarrantyController } from './controllers/warranty.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Project } from './entities/project';
-import { Building } from './entities/building';
-import { AppartmentType } from './entities/appartment_type';
-import { Parking } from './entities/parking';
-import { UnitStorage } from './entities/unit_storage';
-import { Appartment } from './entities/appartment';
-import { Client } from './entities/client';
-import { WarrantyStatus } from './entities/warranty_status';
-import { Files } from './entities/file';
-import { WarrantyHistory } from './entities/warranty_history';
-import { Warranty } from './entities/warranty';
-import { WarrantyType } from './entities/warranty_type';
-import { Type } from './entities/type';
-import { StatusWarrantyType } from './entities/status_warranty_type';
-import { WarrantyTypeFile } from './entities/warranty_type_file';
+import { Project } from './entities/project.entity';
+import { Building } from './entities/building.entity';
+import { AppartmentType } from './entities/appartment_type.entity';
+import { Parking } from './entities/parking.entity';
+import { UnitStorage } from './entities/unit_storage.entity';
+import { Appartment } from './entities/appartment.entity';
+import { Client } from './entities/client.entity';
+import { WarrantyStatus } from './entities/warranty_status.entity';
+import { Files } from './entities/file.entity';
+import { WarrantyHistory } from './entities/warranty_history.entity';
+import { Warranty } from './entities/warranty.entity';
+import { WarrantyType } from './entities/warranty_type.entity';
+import { Type } from './entities/type.entity';
+import { StatusWarrantyType } from './entities/status_warranty_type.entity';
+import { WarrantyTypeFile } from './entities/warranty_type_file.entity';
 
 @Module({
   imports: [
