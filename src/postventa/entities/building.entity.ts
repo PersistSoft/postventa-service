@@ -21,6 +21,9 @@ export class Building {
   @Column({ name: 'number_of_appartments' })
   numberOfAppartments: number;
 
+  @Column({ name: 'number_of_floors' })
+  numberOfFloors: number;
+
   @ManyToOne(() => Project)
   @JoinColumn({ name: 'project_id' })
   project: Project;

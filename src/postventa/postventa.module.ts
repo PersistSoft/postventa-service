@@ -45,6 +45,9 @@ import { WarrantyType } from './entities/warranty_type.entity';
 import { Type } from './entities/type.entity';
 import { StatusWarrantyType } from './entities/status_warranty_type.entity';
 import { WarrantyTypeFile } from './entities/warranty_type_file.entity';
+import { BulkDataController } from './controllers/bulk-data.controller';
+import { MulterModule } from '@nestjs/platform-express';
+import { BulkService } from './services/bulk.service';
 
 @Module({
   imports: [
@@ -66,6 +69,9 @@ import { WarrantyTypeFile } from './entities/warranty_type_file.entity';
       WarrantyTypeFile,
       WarrantyHistory,
     ]),
+    MulterModule.register({
+      dest: '/tmp',
+    }),
   ],
   providers: [
     AppartmentTypeService,
@@ -83,6 +89,7 @@ import { WarrantyTypeFile } from './entities/warranty_type_file.entity';
     WarrantyTypeFileService,
     WarrantyTypeService,
     WarrantyService,
+    BulkService,
   ],
   controllers: [
     AppartmentTypeController,
@@ -100,6 +107,7 @@ import { WarrantyTypeFile } from './entities/warranty_type_file.entity';
     WarrantyTypeFileController,
     WarrantyTypeController,
     WarrantyController,
+    BulkDataController,
   ],
 })
 export class PostventaModule {}

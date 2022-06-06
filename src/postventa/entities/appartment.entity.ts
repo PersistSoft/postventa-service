@@ -18,30 +18,30 @@ export class Appartment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 280 })
-  code: string;
+  @Column({ name: 'construction_name', length: 50 })
+  constructionName: string;
 
-  @Column({ name: 'sales_name' })
+  @Column({ name: 'sales_name', nullable: true })
   salesName: string;
 
-  @Column({ name: 'definitive_name' })
+  @Column({ name: 'definitive_name', nullable: true })
   definitiveName: string;
 
-  @ManyToOne(() => Building)
+  @ManyToOne(() => Building, { nullable: true })
   @JoinColumn({ name: 'building_id' })
   building: Building;
 
-  @ManyToOne(() => Parking)
+  @ManyToOne(() => Parking, { nullable: true })
   @JoinColumn({ name: 'parking_id' })
   parking: Building;
 
-  @ManyToOne(() => UnitStorage)
+  @ManyToOne(() => UnitStorage, { nullable: true })
   @JoinColumn({ name: 'unit_storage_id' })
   unitStorage: UnitStorage;
 
-  @ManyToOne(() => AppartmentType)
+  @ManyToOne(() => AppartmentType, { nullable: true })
   @JoinColumn({ name: 'appartment_type_id' })
-  typeAppartmentId: AppartmentType;
+  typeAppartment: AppartmentType;
 
   @Exclude()
   @CreateDateColumn({
