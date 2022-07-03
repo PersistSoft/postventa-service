@@ -43,6 +43,12 @@ export class Appartment {
   @JoinColumn({ name: 'appartment_type_id' })
   typeAppartment: AppartmentType;
 
+  @Column({ nullable: true })
+  key: string;
+
+  @Column({ name: 'qr_code', nullable: true })
+  qrCode: string;
+
   @Exclude()
   @CreateDateColumn({
     name: 'creation_at',
