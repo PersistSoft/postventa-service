@@ -14,6 +14,8 @@ export default registerAs('config', () => {
       env: process.env.ENV,
       apikey: process.env.API_KEY,
       jwtSecret: process.env.JWT_SECRET,
+      host: process.env.APP_HOST,
+      port: process.env.APP_PORT,
     },
   };
 });
