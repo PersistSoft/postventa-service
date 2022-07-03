@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateProjectDto {
   constructor(projectName: string, address: string) {
@@ -7,12 +7,12 @@ export class CreateProjectDto {
     this.address = address;
   }
 
-  @IsEmail()
+  @IsString()
   @IsNotEmpty()
   @ApiProperty()
   name: string;
 
-  @IsEmail()
+  @IsString()
   @IsNotEmpty()
   @ApiProperty()
   address: string;

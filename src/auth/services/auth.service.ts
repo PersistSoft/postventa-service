@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entities/user.entity';
 import { PayloadToken } from '../model/token.model';
+import { UserStateEnum } from 'src/user/enums/user_state.enum';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,10 @@ export class AuthService {
       throw new UnauthorizedException('Not Allow');
     }
 
-    const user = await this.userService.findByEmail(email);
+    const user = await this.userService.findByEmailAndState(
+      email,
+      UserStateEnum.Active,
+    );
 
     if (!user || !password) {
       throw new UnauthorizedException('Not Allow');

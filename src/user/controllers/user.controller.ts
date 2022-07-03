@@ -27,6 +27,7 @@ import { RoleCodeEnum } from 'src/auth/model/roles.model';
 export class UserController {
   constructor(private userService: UserService) {}
 
+  //@Public()
   @Roles(RoleCodeEnum.ADMIN)
   @Public()
   @Get()
