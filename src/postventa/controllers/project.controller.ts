@@ -20,7 +20,7 @@ import { ProjectService } from '../services/project.service';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Projects module')
-@Controller('projects')
+@Controller('v1/projects')
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
 

@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
-@Controller('warranty-type-file')
+@Controller('v1/warranty-type-file')
 export class WarrantyTypeFileController {}

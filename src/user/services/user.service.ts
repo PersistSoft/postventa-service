@@ -76,4 +76,20 @@ export class UserService {
       .where('user.email = :email', { email })
       .getOne();
   }
+
+  findByEmailAndState(email: string, state: string) {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.roles', 'role')
+      .select([
+        'user.id',
+        'user.email',
+        'user.status',
+        'user.password',
+        'role.code',
+      ])
+      .where('user.email = :email', { email })
+      .andWhere('user.status = :state ', { state })
+      .getOne();
+  }
 }

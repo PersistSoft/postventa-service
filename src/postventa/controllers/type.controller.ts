@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
-@Controller('type')
+@Controller('v1/types')
 export class TypeController {}
