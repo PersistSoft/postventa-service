@@ -28,7 +28,7 @@ export class ProjectService {
   }
 
   findAll(params?: ProjectFilterDto) {
-    if (params) {
+    if (params?.limit && params?.offset) {
       const { limit, offset } = params;
       return this.projectRepository.find({
         take: limit,

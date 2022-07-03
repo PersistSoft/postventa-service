@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -16,6 +17,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { RoleCodeEnum } from 'src/auth/model/roles.model';
 
 import { CreateProjectDto, UpdateProjectDto } from '../dtos/project.dto';
+import { ProjectFilterDto } from '../dtos/project.filter.dto';
 import { ProjectService } from '../services/project.service';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -26,8 +28,8 @@ export class ProjectController {
 
   @Roles(RoleCodeEnum.ADMIN)
   @Get()
-  findAll() {
-    return this.projectService.findAll();
+  findAll(@Query() params: ProjectFilterDto) {
+    return this.projectService.findAll(params);
   }
 
   @Roles(RoleCodeEnum.ADMIN)
