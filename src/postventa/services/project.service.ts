@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateProjectDto } from '../dtos/project.dto';
+import { CreateProjectDto, UpdateProjectDto } from '../dtos/project.dto';
+import { ProjectFilterDto } from '../dtos/project.filter.dto';
 import { Project } from '../entities/project.entity';
 
 @Injectable()
@@ -13,7 +14,6 @@ export class ProjectService {
   async findByName(name: string) {
     const project = await this.projectRepository.findOne({
       where: { name },
-      select: ['id', 'name'],
     });
     return project;
   }
@@ -25,5 +25,27 @@ export class ProjectService {
 
   findById(id: number) {
     return this.projectRepository.findOne({ id });
+  }
+
+  findAll(params?: ProjectFilterDto) {
+    if (params) {
+      const { limit, offset } = params;
+      return this.projectRepository.find({
+        take: limit,
+        skip: offset,
+      });
+    }
+
+    return this.projectRepository.find();
+  }
+
+  async update(id: number, projectDto: UpdateProjectDto) {
+    const user = await this.projectRepository.findOne({ id });
+    this.projectRepository.merge(user, projectDto);
+    return this.projectRepository.save(user);
+  }
+
+  deleteById(id: number) {
+    return this.projectRepository.delete(id);
   }
 }
