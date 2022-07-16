@@ -18,7 +18,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - ENV=dev
+      - ENV=prod
       - POSTGRES_DB=postventa
       - POSTGRES_USER=postventa
       - POSTGRES_PASSWORD=postventa
