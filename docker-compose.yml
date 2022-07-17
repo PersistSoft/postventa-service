@@ -17,10 +17,6 @@ services:
       dockerfile: ./Dockerfile
     ports:
         - 3000:3000
-#    command: 
-#      - node dist/main
-    depends_on:
-      - postventa_db
     environment:
       - ENV=dev
       - POSTGRES_DB=postventa
@@ -44,3 +40,5 @@ services:
       - JWT_SECRET=PO5TV3NT44P1
       - APP_HOST=localhost
       - PORT_HOST=3000
+    depends_on:
+      - postventa_db
