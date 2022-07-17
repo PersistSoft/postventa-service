@@ -10,7 +10,7 @@ services:
     ports:
       - '5433:5432'
     volumes:
-      - ~/data_volums_docker/postventa_database:/var/lib/postgresql/date
+      - ~/data_volums_docker/postventa_database:/var/lib/postgresql/data
   prod:
     build:
       context: .
