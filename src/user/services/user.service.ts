@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { RoleService } from './role.service';
 import { UserFilterDto } from '../dtos/user.filter.dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserService {

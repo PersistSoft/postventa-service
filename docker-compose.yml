@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  postgres:
+  postventa_db:
     image: postgres:13
     environment:
       - POSTGRES_DB=postventa
@@ -10,5 +10,37 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ~/data_volums_docker/postventa_database:/var/lib/postgresql/ date
-
+      - ~/data_volums_docker/postventa_database:/var/lib/postgresql/date
+  dev:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+        - 3000:3000
+    command: 
+      - node dist/main
+    depends_on:
+      - postventa_db
+    environment:
+      - ENV=dev
+      - POSTGRES_DB=postventa
+      - POSTGRES_USER=postventa
+      - POSTGRES_PASSWORD=postventa
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=postventa_db
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_HOST=postventa_db
+      - TYPEORM_USERNAME=postventa
+      - TYPEORM_PASSWORD=postventa
+      - TYPEORM_DATABASE=postventa
+      - TYPEORM_PORT=5432
+      - TYPEORM_SYNCHRONIZE=false
+      - TYPEORM_LOGGING=true
+      - TYPEORM_ENTITIES=src/**/*.entity.ts
+      - TYPEORM_MIGRATIONS=src/database/migrations/*.ts
+      - TYPEORM_MIGRATIONS_DIR=src/database/migrations
+      - TYPEORM_MIGRATIONS_TABLE_NAME=migrations
+      - API_KEY=XZCXZCZXCZXCZCZdsfsdfsfs
+      - JWT_SECRET=PO5TV3NT44P1
+      - APP_HOST=localhost
+      - PORT_HOST=3000

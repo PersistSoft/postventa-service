@@ -19,7 +19,7 @@ import config from '../config';
           username,
           password,
           database,
-          synchronize: false,
+          synchronize: true,
           autoLoadEntities: true,
         } as ConnectionOptions;
       },

@@ -14,7 +14,8 @@ import config from './config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: environments[process.env.NODE_ENV] || '.env',
+      ignoreEnvFile: true,
+      envFilePath: 'dev.env',
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
