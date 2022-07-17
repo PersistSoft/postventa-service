@@ -8,7 +8,7 @@ services:
       - POSTGRES_USER=postventa
       - POSTGRES_PASSWORD=postventa
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - ~/data_volums_docker/postventa_database:/var/lib/postgresql/date
   dev:
@@ -26,14 +26,14 @@ services:
       - POSTGRES_DB=postventa
       - POSTGRES_USER=postventa
       - POSTGRES_PASSWORD=postventa
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT=5433
       - POSTGRES_HOST=postventa_db
       - TYPEORM_CONNECTION=postgres
       - TYPEORM_HOST=postventa_db
       - TYPEORM_USERNAME=postventa
       - TYPEORM_PASSWORD=postventa
       - TYPEORM_DATABASE=postventa
-      - TYPEORM_PORT=5432
+      - TYPEORM_PORT=5433
       - TYPEORM_SYNCHRONIZE=false
       - TYPEORM_LOGGING=true
       - TYPEORM_ENTITIES=src/**/*.entity.ts
