@@ -19,13 +19,55 @@ export class AppartmentService {
   ) {}
 
   async findAll(params: AppartmentFilterDto) {
-    const key = Math.random().toString(36).substring(2, 5);
-    const code = `T${1}TEST${key}`.toUpperCase();
+    /* 
+        return this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.roles', 'role')
+      .select([
+        'user.id',
+        'user.email',
+        'user.status',
+        'user.password',
+        'role.code',
+      ])
+      .where('user.email = :email', { email })
+      .andWhere('user.status = :state ', { state })
+      .getOne();
 
-    const url = await QRCode.toDataURL(
-      `http://${this.configService.app.host}:${this.configService.app.port}/v1/qrcode/${code}/appartment`,
-    );
-    console.log(url);
+
+                'id',
+          'constructionName',
+          'salesName',
+          'definitiveName',
+          'key',
+          'qrCode',
+    */
+    if (params) {
+      const { limit, offset } = params;
+      return this.appartmentRepository
+        .createQueryBuilder('appartment')
+        .leftJoinAndSelect('appartment.building', 'building')
+        .leftJoinAndSelect('appartment.parking', 'parking')
+        .leftJoinAndSelect('appartment.unitStorage', 'unitStorage')
+        .leftJoinAndSelect('appartment.appartmentType', 'appartmentType')
+        .select([
+          'appartment.id',
+          'appartment.constructionName',
+          'appartment.salesName',
+          'appartment.definitiveName',
+          'appartment.key',
+          'appartment.qrCode',
+          'building.name',
+          'parking.name',
+          'unitStorage.name',
+          'appartmentType.name',
+        ])
+        .take(limit)
+        .skip(offset)
+        .getMany();
+    }
+
+    return this.appartmentRepository.find();
   }
 
   async findByConstructionName(constructionName: string) {

@@ -14,7 +14,8 @@ import config from './config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      ignoreEnvFile: true,
+      //ignoreEnvFile: process.env.NODE_ENV === 'dev',
+      //envFilePath: environments[process.env.NODE_ENV],
       envFilePath: 'dev.env',
       load: [config],
       isGlobal: true,
@@ -36,4 +37,9 @@ import config from './config';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log(process.env.NODE_ENV);
+    console.log(environments[process.env.NODE_ENV]);
+  }
+}

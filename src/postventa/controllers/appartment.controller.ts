@@ -13,6 +13,7 @@ export class AppartmentController {
   @Roles(RoleCodeEnum.ADMIN)
   @Get()
   findAll(@Query() params: AppartmentFilterDto) {
+    console.log('dee');
     return this.appartmentService.findAll(params);
   }
 }

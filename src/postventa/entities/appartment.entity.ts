@@ -41,7 +41,7 @@ export class Appartment {
 
   @ManyToOne(() => AppartmentType, { nullable: true })
   @JoinColumn({ name: 'appartment_type_id' })
-  typeAppartment: AppartmentType;
+  appartmentType: AppartmentType;
 
   @Column({ nullable: true })
   key: string;
