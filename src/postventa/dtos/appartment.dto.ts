@@ -35,5 +35,5 @@ export class CreateAppartmentDto {
   @IsInt()
   @IsNotEmpty()
   @ApiProperty()
-  typeAppartmentId: number;
+  appartmentTypeId: number;
 }
