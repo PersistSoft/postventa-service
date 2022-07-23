@@ -18,13 +18,17 @@ import { RoleCodeEnum } from 'src/auth/model/roles.model';
 
 import { CreateProjectDto, UpdateProjectDto } from '../dtos/project.dto';
 import { ProjectFilterDto } from '../dtos/project.filter.dto';
+import { BuildingService } from '../services/building.service';
 import { ProjectService } from '../services/project.service';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Projects module')
 @Controller('v1/projects')
 export class ProjectController {
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    private projectService: ProjectService,
+    private buildingService: BuildingService,
+  ) {}
 
   @Roles(RoleCodeEnum.ADMIN)
   @Get()
@@ -36,6 +40,12 @@ export class ProjectController {
   @Post()
   create(@Body() projectDto: CreateProjectDto) {
     return this.projectService.create(projectDto);
+  }
+
+  @Roles(RoleCodeEnum.ADMIN)
+  @Get('/:id/buildings')
+  getBuldginsById(@Param('id', ParseIntPipe) id: number) {
+    return this.buildingService.findByPrjectId(id);
   }
 
   @Roles(RoleCodeEnum.ADMIN)
