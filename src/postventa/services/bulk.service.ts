@@ -20,15 +20,10 @@ export class BulkService {
   async bulkInitialData(file: Express.Multer.File) {
     let project: Project = new Project();
     let building: Building = new Building();
-    let appartment: Appartment = new Appartment();
+    const appartment: Appartment = new Appartment();
 
     await readXlsxFile(file['path']).then(async (rows) => {
       for (let index = 0; index < rows.length; index++) {
-        const currentProjectName = project.name || '';
-        const currentBuildingName = project.name || '';
-        const currentApprtmentConstructionName =
-          appartment.constructionName || '';
-
         if (index !== 0) {
           try {
             const data = rows[index];
@@ -39,30 +34,28 @@ export class BulkService {
             const buildingNumberAppartments = data[4] as number;
             const apprtmentConstructionName = data[5] as string;
 
-            if (
-              projectName.toUpperCase() !== currentProjectName.toUpperCase()
-            ) {
+            if (projectName) {
               project = await this.handleProject(projectName, projectAddress);
             }
 
-            if (
-              currentBuildingName.toUpperCase() !== buildingName.toUpperCase()
-            ) {
+            /**
+             * Validar si el nombre de la torre existe junto con el projecto, si no, lo creamos
+             */
+            if (buildingName) {
               building = await this.handleBuilding(
-                projectName,
+                buildingName,
                 buildingFloors,
                 buildingNumberAppartments,
                 project,
               );
             }
 
-            if (
-              currentApprtmentConstructionName !== apprtmentConstructionName
-            ) {
-              appartment = await this.handleAppartment(
-                apprtmentConstructionName,
-                building,
-              );
+            /**
+             * Validar si el nombre de la apartment existe junto con la torre
+             */
+
+            if (apprtmentConstructionName) {
+              await this.handleAppartment(apprtmentConstructionName, building);
             }
           } catch (error) {
             console.log(error);
@@ -108,7 +101,10 @@ export class BulkService {
       throw new Error(`Building name not valid.`);
     }
 
-    building = await this.buildingService.findByName(buildingName);
+    building = await this.buildingService.findByNameAndProjectId(
+      buildingName,
+      project.id,
+    );
 
     if (!building) {
       const newBuilding = new CreateBuildingDto();
@@ -137,9 +133,11 @@ export class BulkService {
       throw new Error(`Appartment name not valid.`);
     }
 
-    appartment = await this.appartmentService.findByConstructionName(
-      apprtmentConstructionName,
-    );
+    appartment =
+      await this.appartmentService.findByConstructionNameAndBuildingId(
+        apprtmentConstructionName,
+        building.id,
+      );
 
     if (!appartment) {
       const newAppartment = new CreateAppartmentDto();

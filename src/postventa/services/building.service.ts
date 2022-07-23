@@ -14,11 +14,19 @@ export class BuildingService {
   ) {}
 
   async findByName(name: string) {
-    const project = await this.buildingRepository.findOne({
+    return this.buildingRepository.findOne({
       where: { name },
       select: ['id', 'name'],
     });
-    return project;
+  }
+
+  findByNameAndProjectId(name: string, projectId: number) {
+    return this.buildingRepository
+      .createQueryBuilder('buildings')
+      .leftJoinAndSelect('buildings.project', 'project')
+      .andWhere(`buildings.project = ${projectId}`)
+      .andWhere(`LOWER(buildings.name) = LOWER('${name}')`)
+      .getOne();
   }
 
   async create(building: CreateBuildingDto) {
