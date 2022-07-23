@@ -30,7 +30,7 @@ export class AppartmentService {
   async findAll(params: AppartmentFilterDto) {
     if (params) {
       const { limit, offset } = params;
-      return this.appartmentRepository
+      let query = this.appartmentRepository
         .createQueryBuilder('appartment')
         .leftJoinAndSelect('appartment.building', 'building')
         .leftJoinAndSelect('appartment.parking', 'parking')
@@ -49,8 +49,25 @@ export class AppartmentService {
           'appartmentType.name',
         ])
         .take(limit)
-        .skip(offset)
-        .getMany();
+        .skip(offset);
+      
+        console.log(params);
+        
+      if (params.buildingId) {
+        query = query.andWhere(`appartment.building = ${params.buildingId}`);
+      }
+
+      console.log('hasPaskings', params.hasPaskings);
+      
+      if (params.hasPaskings === 'true') {
+        query = query.andWhere(`appartment.parking IS NOT NULL`);
+      }
+
+      if (params.hasUnitStorages === 'true') {
+        query = query.andWhere(`appartment.unitStorage IS NOT NULL`);
+      }
+
+      return query.getMany();
     }
 
     return this.appartmentRepository.find();
@@ -136,5 +153,11 @@ export class AppartmentService {
 
   deleteById(id: number) {
     return this.appartmentRepository.delete(id);
+  }
+
+  private getFilters(params) {
+    //`appartment.building = ${params.buildingId}`
+    //if(){
+    //}
   }
 }
