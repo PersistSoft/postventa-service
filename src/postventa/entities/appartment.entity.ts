@@ -64,4 +64,7 @@ export class Appartment {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @Column({ nullable: true, name: 'delivery_date' })
+  deliveryDate: Date;
 }

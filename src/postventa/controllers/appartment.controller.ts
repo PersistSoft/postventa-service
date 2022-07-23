@@ -25,6 +25,12 @@ export class AppartmentController {
   constructor(private appartmentService: AppartmentService) {}
 
   @Roles(RoleCodeEnum.ADMIN)
+  @Get('/totals')
+  getTotals(@Query() params: AppartmentFilterDto) {
+    return this.appartmentService.getTotal(params);
+  }
+
+  @Roles(RoleCodeEnum.ADMIN)
   @Get()
   findAll(@Query() params: AppartmentFilterDto) {
     return this.appartmentService.findAll(params);

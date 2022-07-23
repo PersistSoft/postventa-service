@@ -1,5 +1,4 @@
-import { Transform } from 'class-transformer';
-import { IsBoolean, IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsOptional, IsPositive, IsString } from 'class-validator';
 import { FilterDto } from './filter.dto';
 
 export class AppartmentFilterDto extends FilterDto {
