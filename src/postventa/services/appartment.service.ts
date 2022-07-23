@@ -77,6 +77,20 @@ export class AppartmentService {
     return appartment;
   }
 
+  async findByConstructionNameAndBuildingId(
+    constructionName: string,
+    buildingId: number,
+  ) {
+    return this.appartmentRepository
+      .createQueryBuilder('appartment')
+      .leftJoinAndSelect('appartment.building', 'building')
+      .andWhere(`appartment.building = ${buildingId}`)
+      .andWhere(
+        `LOWER(appartment.constructionName) = LOWER('${constructionName}')`,
+      )
+      .getOne();
+  }
+
   async create(appartment: CreateAppartmentDto) {
     const newAppartment = this.appartmentRepository.create(appartment);
     newAppartment.building = await this.buildingService.findById(
@@ -100,7 +114,7 @@ export class AppartmentService {
     newAppartment.key = code;
     newAppartment.qrCode = url;
 
-    return this.appartmentRepository.save(newAppartment);
+    return await this.appartmentRepository.save(newAppartment);
   }
 
   /**
@@ -111,7 +125,6 @@ export class AppartmentService {
     let code = `${newAppartment?.building?.name}_${key}`.toUpperCase();
 
     code = code.replace(/\s/g, '');
-    console.log('code: ', code);
 
     const url = await QRCode.toDataURL(
       `http://${this.configService.app.host}:${this.configService.app.port}/v1/qrcode/${code}/appartment`,
