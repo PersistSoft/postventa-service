@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsInt } from 'class-validator';
 
 export class CreateAppartmentDto {
@@ -37,3 +37,5 @@ export class CreateAppartmentDto {
   @ApiProperty()
   appartmentTypeId: number;
 }
+
+export class updateAppartmentDto extends PartialType(CreateAppartmentDto) {}

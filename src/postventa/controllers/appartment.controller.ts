@@ -12,9 +12,11 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RoleCodeEnum } from 'src/auth/model/roles.model';
-import { CreateAppartmentDto } from '../dtos/appartment.dto';
+import {
+  CreateAppartmentDto,
+  updateAppartmentDto,
+} from '../dtos/appartment.dto';
 import { AppartmentFilterDto } from '../dtos/appartment.filter.dto';
-import { CreateProjectDto, UpdateProjectDto } from '../dtos/project.dto';
 import { AppartmentService } from '../services/appartment.service';
 
 @ApiTags('Appartments Module')
@@ -30,11 +32,11 @@ export class AppartmentController {
 
   @Roles(RoleCodeEnum.ADMIN)
   @Post()
-  create(@Body() projectDto: CreateAppartmentDto) {
-    return this.appartmentService.create(projectDto);
+  create(@Body() appartmentDto: CreateAppartmentDto) {
+    return this.appartmentService.create(appartmentDto);
   }
 
-  /*@Roles(RoleCodeEnum.ADMIN)
+  @Roles(RoleCodeEnum.ADMIN)
   @Get('/:id')
   getById(@Param('id', ParseIntPipe) id: number) {
     return this.appartmentService.findById(id);
@@ -44,14 +46,14 @@ export class AppartmentController {
   @Put('/:id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() projectDto: UpdateProjectDto,
+    @Body() appartmentDto: updateAppartmentDto,
   ) {
-    return this.appartmentService.update(id, projectDto);
+    return this.appartmentService.update(id, appartmentDto);
   }
 
   @Roles(RoleCodeEnum.ADMIN)
   @Delete('/:id')
   findById(@Param('id', ParseIntPipe) id: number) {
     return this.appartmentService.deleteById(id);
-  }*/
+  }
 }

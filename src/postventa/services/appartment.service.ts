@@ -1,7 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateAppartmentDto } from '../dtos/appartment.dto';
+import {
+  CreateAppartmentDto,
+  updateAppartmentDto,
+} from '../dtos/appartment.dto';
 import { Appartment } from '../entities/appartment.entity';
 import { BuildingService } from './building.service';
 import * as QRCode from 'qrcode';
@@ -102,5 +105,36 @@ export class AppartmentService {
     );
 
     return { code, url };
+  }
+
+  findById(id: number) {
+    return this.appartmentRepository.findOne({ id });
+  }
+
+  async update(id: number, appartmentDto: updateAppartmentDto) {
+    const appartment = await this.appartmentRepository.findOne({ id });
+    this.appartmentRepository.merge(appartment, appartmentDto);
+
+    appartment.building = await this.buildingService.findById(
+      appartmentDto.buildingId,
+    );
+
+    appartment.parking = await this.parkingService.findById(
+      appartmentDto.parkingId,
+    );
+
+    appartment.unitStorage = await this.unitStorageService.findById(
+      appartmentDto.unitStorageId,
+    );
+
+    appartment.appartmentType = await this.appartmentTypeService.findById(
+      appartmentDto.appartmentTypeId,
+    );
+
+    return this.appartmentRepository.save(appartment);
+  }
+
+  deleteById(id: number) {
+    return this.appartmentRepository.delete(id);
   }
 }
