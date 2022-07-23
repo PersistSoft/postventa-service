@@ -8,6 +8,9 @@ import * as QRCode from 'qrcode';
 import { AppartmentFilterDto } from '../dtos/appartment.filter.dto';
 import { ConfigType } from '@nestjs/config';
 import config from 'src/config';
+import { ParkingService } from './parking.service';
+import { UnitStorageService } from './unit_storage.service';
+import { AppartmentTypeService } from './appartment_type.service';
 
 @Injectable()
 export class AppartmentService {
@@ -15,33 +18,13 @@ export class AppartmentService {
     @InjectRepository(Appartment)
     private appartmentRepository: Repository<Appartment>,
     private buildingService: BuildingService,
+    private parkingService: ParkingService,
+    private unitStorageService: UnitStorageService,
+    private appartmentTypeService: AppartmentTypeService,
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
   ) {}
 
   async findAll(params: AppartmentFilterDto) {
-    /* 
-        return this.userRepository
-      .createQueryBuilder('user')
-      .leftJoinAndSelect('user.roles', 'role')
-      .select([
-        'user.id',
-        'user.email',
-        'user.status',
-        'user.password',
-        'role.code',
-      ])
-      .where('user.email = :email', { email })
-      .andWhere('user.status = :state ', { state })
-      .getOne();
-
-
-                'id',
-          'constructionName',
-          'salesName',
-          'definitiveName',
-          'key',
-          'qrCode',
-    */
     if (params) {
       const { limit, offset } = params;
       return this.appartmentRepository
@@ -80,22 +63,44 @@ export class AppartmentService {
 
   async create(appartment: CreateAppartmentDto) {
     const newAppartment = this.appartmentRepository.create(appartment);
-    if (appartment.buildingId) {
-      const building = await this.buildingService.findById(
-        appartment.buildingId,
-      );
-      newAppartment.building = building;
-    }
-
-    const key = Math.random().toString(36).substring(2, 5);
-    const code = `T${1}TEST${key}`.toUpperCase();
-    const url = await QRCode.toDataURL(
-      `http://${this.configService.app.host}:${this.configService.app.port}/v1/qrcode/${code}/appartment`,
+    newAppartment.building = await this.buildingService.findById(
+      appartment.buildingId,
     );
+
+    newAppartment.parking = await this.parkingService.findById(
+      appartment.parkingId,
+    );
+
+    newAppartment.unitStorage = await this.unitStorageService.findById(
+      appartment.unitStorageId,
+    );
+
+    newAppartment.appartmentType = await this.appartmentTypeService.findById(
+      appartment.appartmentTypeId,
+    );
+
+    const { code, url } = await this.generateQrCode(newAppartment);
 
     newAppartment.key = code;
     newAppartment.qrCode = url;
 
     return this.appartmentRepository.save(newAppartment);
+  }
+
+  /**
+   * Generate code and qrcode of appartments
+   */
+  private async generateQrCode(newAppartment: Appartment) {
+    const key = Math.random().toString(36).substring(2, 5);
+    let code = `${newAppartment?.building?.name}_${key}`.toUpperCase();
+
+    code = code.replace(/\s/g, '');
+    console.log('code: ', code);
+
+    const url = await QRCode.toDataURL(
+      `http://${this.configService.app.host}:${this.configService.app.port}/v1/qrcode/${code}/appartment`,
+    );
+
+    return { code, url };
   }
 }

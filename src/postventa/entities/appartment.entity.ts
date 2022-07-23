@@ -33,7 +33,7 @@ export class Appartment {
 
   @ManyToOne(() => Parking, { nullable: true })
   @JoinColumn({ name: 'parking_id' })
-  parking: Building;
+  parking: Parking;
 
   @ManyToOne(() => UnitStorage, { nullable: true })
   @JoinColumn({ name: 'unit_storage_id' })
