@@ -50,15 +50,11 @@ export class AppartmentService {
         ])
         .take(limit)
         .skip(offset);
-      
-        console.log(params);
-        
+
       if (params.buildingId) {
         query = query.andWhere(`appartment.building = ${params.buildingId}`);
       }
 
-      console.log('hasPaskings', params.hasPaskings);
-      
       if (params.hasPaskings === 'true') {
         query = query.andWhere(`appartment.parking IS NOT NULL`);
       }
@@ -155,9 +151,40 @@ export class AppartmentService {
     return this.appartmentRepository.delete(id);
   }
 
-  private getFilters(params) {
-    //`appartment.building = ${params.buildingId}`
-    //if(){
-    //}
+  /**
+   * Get totals of appartments
+   * @param params
+   * @returns
+   */
+  async getTotal(params) {
+    if (params && params.buildingId) {
+      const appartments = await this.appartmentRepository
+        .createQueryBuilder('appartment')
+        .leftJoinAndSelect('appartment.building', 'building')
+        .where(`appartment.building = ${params.buildingId}`)
+        .getCount();
+
+      const delivered = await this.appartmentRepository
+        .createQueryBuilder('appartment')
+        .where(`appartment.delivery_date is not null`)
+        .getCount();
+
+      const parkings = await this.appartmentRepository
+        .createQueryBuilder('appartment')
+        .where(`appartment.parking is not null`)
+        .getCount();
+
+      const unitsStorage = await this.appartmentRepository
+        .createQueryBuilder('appartment')
+        .where(`appartment.unitStorage is not null`)
+        .getCount();
+
+      return {
+        appartments,
+        delivered,
+        parkings,
+        unitsStorage,
+      };
+    }
   }
 }
