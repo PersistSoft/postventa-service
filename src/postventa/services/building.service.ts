@@ -35,4 +35,12 @@ export class BuildingService {
   findById(id: number) {
     return this.buildingRepository.findOne({ id });
   }
+
+  findByPrjectId(id: number) {
+    return this.buildingRepository
+      .createQueryBuilder('buildings')
+      .leftJoinAndSelect('buildings.project', 'project')
+      .where(`buildings.project = ${id}`)
+      .getMany();
+  }
 }

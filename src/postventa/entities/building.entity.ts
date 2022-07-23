@@ -24,6 +24,7 @@ export class Building {
   @Column({ name: 'number_of_floors' })
   numberOfFloors: number;
 
+  @Exclude()
   @ManyToOne(() => Project)
   @JoinColumn({ name: 'project_id' })
   project: Project;
