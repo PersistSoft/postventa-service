@@ -13,4 +13,8 @@ export class AppartmentFilterDto extends FilterDto {
   @IsOptional()
   @IsString()
   hasUnitStorages: string;
+
+  @IsOptional()
+  @IsString()
+  delivered: string;
 }

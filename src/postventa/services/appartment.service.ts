@@ -63,6 +63,10 @@ export class AppartmentService {
         query = query.andWhere(`appartment.unitStorage IS NOT NULL`);
       }
 
+      if (params.delivered === 'true') {
+        query = query.andWhere(`appartment.deliveryDate IS NOT NULL`);
+      }
+
       return query.getMany();
     }
 
