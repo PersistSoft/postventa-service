@@ -184,16 +184,19 @@ export class AppartmentService {
       const delivered = await this.appartmentRepository
         .createQueryBuilder('appartment')
         .where(`appartment.delivery_date is not null`)
+        .andWhere(`appartment.building = ${params.buildingId}`)
         .getCount();
 
       const parkings = await this.appartmentRepository
         .createQueryBuilder('appartment')
         .where(`appartment.parking is not null`)
+        .andWhere(`appartment.building = ${params.buildingId}`)
         .getCount();
 
       const unitsStorage = await this.appartmentRepository
         .createQueryBuilder('appartment')
         .where(`appartment.unitStorage is not null`)
+        .andWhere(`appartment.building = ${params.buildingId}`)
         .getCount();
 
       return {
