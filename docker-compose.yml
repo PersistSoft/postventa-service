@@ -21,7 +21,7 @@ services:
     env_file:
       - dev.env
     depends_on:
-  #    - postventa_db
+      - postventa_db
         #  environment:
         # - ENV=dev
         # - POSTGRES_DB=postventa
