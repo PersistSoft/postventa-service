@@ -1,5 +1,11 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsInt } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsInt,
+  IsOptional,
+  IsArray,
+} from 'class-validator';
 
 export class CreateAppartmentDto {
   @IsString()
@@ -22,15 +28,17 @@ export class CreateAppartmentDto {
   @ApiProperty()
   buildingId: number;
 
-  @IsInt()
   @IsNotEmpty()
   @ApiProperty()
-  parkingId: number;
+  @IsOptional()
+  @IsArray()
+  parkingIds: number[];
 
-  @IsInt()
   @IsNotEmpty()
   @ApiProperty()
-  unitStorageId: number;
+  @IsOptional()
+  @IsArray()
+  unitStorageIds: number[];
 
   @IsInt()
   @IsNotEmpty()

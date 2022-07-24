@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import {
   CreateAppartmentDto,
   updateAppartmentDto,
@@ -89,14 +89,14 @@ export class AppartmentService {
       appartment.buildingId,
     );
 
-    //newAppartment.parking = await this.parkingService.findById(
-    //  appartment.parkingId,
-    //);
-    /*
-    newAppartment.unitStorage = await this.unitStorageService.findById(
-      appartment.unitStorageId,
+    newAppartment.parkings = await this.parkingService.findByIds(
+      appartment.parkingIds,
     );
-    */
+
+    newAppartment.unitStorages = await this.unitStorageService.findByIds(
+      appartment.unitStorageIds,
+    );
+
     newAppartment.appartmentType = await this.appartmentTypeService.findById(
       appartment.appartmentTypeId,
     );

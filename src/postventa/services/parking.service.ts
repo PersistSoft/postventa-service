@@ -13,4 +13,8 @@ export class ParkingService {
   findById(id: number) {
     return this.parkingRepository.findOne({ id });
   }
+
+  findByIds(ids: number[]) {
+    return this.parkingRepository.findByIds(ids);
+  }
 }
