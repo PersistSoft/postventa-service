@@ -34,7 +34,7 @@ export class AppartmentService {
       let query = this.appartmentRepository
         .createQueryBuilder('appartment')
         .leftJoinAndSelect('appartment.parkings', 'parking')
-        .leftJoinAndSelect('appartment.unitStorages', 'unitStorage')
+        .leftJoinAndSelect('appartment.unitStorages', 'unitstorage')
         .leftJoinAndSelect('appartment.appartmentType', 'appartmentType')
         .take(limit)
         .skip(offset);
@@ -48,7 +48,7 @@ export class AppartmentService {
       }
 
       if (params.hasUnitStorages === 'true') {
-        query = query.andWhere(`appartmentType IS NOT NULL`);
+        query = query.andWhere(`unitstorage IS NOT NULL`);
       }
 
       if (params.delivered === 'true') {
@@ -137,14 +137,14 @@ export class AppartmentService {
       appartmentDto.buildingId,
     );
 
-    /*appartment.parking = await this.parkingService.findById(
-      appartmentDto.parkingId,
-    );*/
-    /*
-    appartment.unitStorage = await this.unitStorageService.findById(
-      appartmentDto.unitStorageId,
+    appartment.parkings = await this.parkingService.findByIds(
+      appartmentDto.parkingIds,
     );
-    */
+
+    appartment.unitStorages = await this.unitStorageService.findByIds(
+      appartmentDto.unitStorageIds,
+    );
+
     appartment.appartmentType = await this.appartmentTypeService.findById(
       appartmentDto.appartmentTypeId,
     );
@@ -171,20 +171,22 @@ export class AppartmentService {
 
       const delivered = await this.appartmentRepository
         .createQueryBuilder('appartment')
-        .where(`appartment.delivery_date is not null`)
+        .where(`appartment.delivery_date IS NOT NULL`)
         .andWhere(`appartment.building = ${params.buildingId}`)
         .getCount();
 
       const parkings = await this.appartmentRepository
         .createQueryBuilder('appartment')
-        .where(`appartment.parking is not null`)
+        .leftJoinAndSelect('appartment.parkings', 'parking')
         .andWhere(`appartment.building = ${params.buildingId}`)
+        .andWhere(`parking IS NOT NULL`)
         .getCount();
 
       const unitsStorage = await this.appartmentRepository
         .createQueryBuilder('appartment')
-        .where(`appartment.unitStorage is not null`)
+        .leftJoinAndSelect('appartment.unitStorages', 'unitstorage')
         .andWhere(`appartment.building = ${params.buildingId}`)
+        .andWhere(`unitstorage IS NOT NULL`)
         .getCount();
 
       return {
