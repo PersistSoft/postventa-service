@@ -12,15 +12,15 @@ services:
     volumes:
       - ~/data_volums_docker/postventa_database:/var/lib/postgresql/data
   
-  #prod:
-  #  build:
-  #    context: .
-  #    dockerfile: ./Dockerfile
-  #  ports:
-  #      - 3000:3000
-  #  env_file:
-  #    - dev.env
-  #  depends_on:
+  prod:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+        - 3000:3000
+    env_file:
+      - dev.env
+    depends_on:
   #    - postventa_db
         #  environment:
         # - ENV=dev
