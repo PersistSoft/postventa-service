@@ -11,6 +11,7 @@ services:
       - '5433:5432'
     volumes:
       - ~/data_volums_docker/postventa_database:/var/lib/postgresql/data
+  
   prod:
     build:
       context: .
@@ -20,7 +21,7 @@ services:
     env_file:
       - dev.env
     depends_on:
-      - postventa_db
+  #    - postventa_db
         #  environment:
         # - ENV=dev
         # - POSTGRES_DB=postventa

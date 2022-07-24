@@ -13,4 +13,8 @@ export class UnitStorageService {
   findById(id: number) {
     return this.unitStorageRepository.findOne({ id });
   }
+
+  findByIds(ids: number[]) {
+    return this.unitStorageRepository.findByIds(ids);
+  }
 }
