@@ -5,6 +5,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,15 +32,7 @@ export class Appartment {
   @JoinColumn({ name: 'building_id' })
   building: Building;
 
-  @ManyToOne(() => Parking, { nullable: true })
-  @JoinColumn({ name: 'parking_id' })
-  parking: Parking;
-
-  @ManyToOne(() => UnitStorage, { nullable: true })
-  @JoinColumn({ name: 'unit_storage_id' })
-  unitStorage: UnitStorage;
-
-  @ManyToOne(() => AppartmentType, { nullable: true })
+  @ManyToOne(() => AppartmentType, { nullable: true, eager: true })
   @JoinColumn({ name: 'appartment_type_id' })
   appartmentType: AppartmentType;
 
@@ -48,6 +41,18 @@ export class Appartment {
 
   @Column({ name: 'qr_code', nullable: true })
   qrCode: string;
+
+  @OneToMany(() => Parking, (parking) => parking.appartment, {
+    eager: true,
+    cascade: true,
+  })
+  parkings: Parking[];
+
+  @OneToMany(() => UnitStorage, (unitStorage) => unitStorage.appartment, {
+    eager: true,
+    cascade: true,
+  })
+  unitStorages: UnitStorage[];
 
   @Exclude()
   @CreateDateColumn({

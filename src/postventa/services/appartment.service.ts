@@ -30,24 +30,12 @@ export class AppartmentService {
   async findAll(params: AppartmentFilterDto) {
     if (params) {
       const { limit, offset } = params;
+
       let query = this.appartmentRepository
         .createQueryBuilder('appartment')
-        .leftJoinAndSelect('appartment.building', 'building')
-        .leftJoinAndSelect('appartment.parking', 'parking')
-        .leftJoinAndSelect('appartment.unitStorage', 'unitStorage')
+        .leftJoinAndSelect('appartment.parkings', 'parking')
+        .leftJoinAndSelect('appartment.unitStorages', 'unitStorage')
         .leftJoinAndSelect('appartment.appartmentType', 'appartmentType')
-        .select([
-          'appartment.id',
-          'appartment.constructionName',
-          'appartment.salesName',
-          'appartment.definitiveName',
-          'appartment.key',
-          'appartment.qrCode',
-          'building.name',
-          'parking.name',
-          'unitStorage.name',
-          'appartmentType.name',
-        ])
         .take(limit)
         .skip(offset);
 
@@ -56,11 +44,11 @@ export class AppartmentService {
       }
 
       if (params.hasPaskings === 'true') {
-        query = query.andWhere(`appartment.parking IS NOT NULL`);
+        query = query.andWhere(`parking IS NOT NULL`);
       }
 
       if (params.hasUnitStorages === 'true') {
-        query = query.andWhere(`appartment.unitStorage IS NOT NULL`);
+        query = query.andWhere(`appartmentType IS NOT NULL`);
       }
 
       if (params.delivered === 'true') {
@@ -101,14 +89,14 @@ export class AppartmentService {
       appartment.buildingId,
     );
 
-    newAppartment.parking = await this.parkingService.findById(
-      appartment.parkingId,
-    );
-
+    //newAppartment.parking = await this.parkingService.findById(
+    //  appartment.parkingId,
+    //);
+    /*
     newAppartment.unitStorage = await this.unitStorageService.findById(
       appartment.unitStorageId,
     );
-
+    */
     newAppartment.appartmentType = await this.appartmentTypeService.findById(
       appartment.appartmentTypeId,
     );
@@ -149,14 +137,14 @@ export class AppartmentService {
       appartmentDto.buildingId,
     );
 
-    appartment.parking = await this.parkingService.findById(
+    /*appartment.parking = await this.parkingService.findById(
       appartmentDto.parkingId,
-    );
-
+    );*/
+    /*
     appartment.unitStorage = await this.unitStorageService.findById(
       appartmentDto.unitStorageId,
     );
-
+    */
     appartment.appartmentType = await this.appartmentTypeService.findById(
       appartmentDto.appartmentTypeId,
     );

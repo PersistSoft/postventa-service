@@ -3,9 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Appartment } from './appartment.entity';
 
 @Entity('parkings')
 export class Parking {
@@ -17,6 +20,10 @@ export class Parking {
 
   @Column({ type: 'varchar', length: 50 })
   name: string;
+
+  @ManyToOne(() => Appartment, (appartment) => appartment.parkings)
+  @JoinColumn({ name: 'appartment_id' })
+  appartment: Appartment;
 
   @Exclude()
   @CreateDateColumn({

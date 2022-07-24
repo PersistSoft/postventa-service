@@ -20,7 +20,6 @@ export class BulkService {
   async bulkInitialData(file: Express.Multer.File) {
     let project: Project = new Project();
     let building: Building = new Building();
-    const appartment: Appartment = new Appartment();
 
     await readXlsxFile(file['path']).then(async (rows) => {
       for (let index = 0; index < rows.length; index++) {
@@ -38,9 +37,6 @@ export class BulkService {
               project = await this.handleProject(projectName, projectAddress);
             }
 
-            /**
-             * Validar si el nombre de la torre existe junto con el projecto, si no, lo creamos
-             */
             if (buildingName) {
               building = await this.handleBuilding(
                 buildingName,
@@ -50,19 +46,20 @@ export class BulkService {
               );
             }
 
-            /**
-             * Validar si el nombre de la apartment existe junto con la torre
-             */
-
             if (apprtmentConstructionName) {
               await this.handleAppartment(apprtmentConstructionName, building);
             }
           } catch (error) {
-            console.log(error);
+            console.error(error);
           }
         }
       }
     });
+
+    return {
+      project,
+      meesage: 'The file was processed',
+    };
   }
 
   async handleProject(
@@ -80,6 +77,7 @@ export class BulkService {
     if (!project) {
       const newProject = new CreateProjectDto(projectName, projectAddress);
       project = await this.projectService.create(newProject);
+      console.info('A project was created: ', project);
     }
 
     if (!project) {
@@ -114,6 +112,7 @@ export class BulkService {
       newBuilding.projectId = project.id;
 
       building = await this.buildingService.create(newBuilding);
+      console.info('A building was created: ', building);
     }
 
     if (!building) {
@@ -145,6 +144,7 @@ export class BulkService {
       newAppartment.buildingId = building.id;
 
       appartment = await this.appartmentService.create(newAppartment);
+      console.info('A appartment was created: ', building);
     }
 
     if (!appartment) {
