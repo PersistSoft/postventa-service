@@ -89,24 +89,30 @@ export class AppartmentService {
       appartment.buildingId,
     );
 
-    newAppartment.parkings = await this.parkingService.findByIds(
-      appartment.parkingIds,
-    );
+    if (appartment.parkingIds) {
+      newAppartment.parkings = await this.parkingService.findByIds(
+        appartment.parkingIds,
+      );
+    }
 
-    newAppartment.unitStorages = await this.unitStorageService.findByIds(
-      appartment.unitStorageIds,
-    );
+    if (appartment.unitStorageIds) {
+      newAppartment.unitStorages = await this.unitStorageService.findByIds(
+        appartment.unitStorageIds,
+      );
+    }
 
-    newAppartment.appartmentType = await this.appartmentTypeService.findById(
-      appartment.appartmentTypeId,
-    );
+    if (appartment.appartmentTypeId) {
+      newAppartment.appartmentType = await this.appartmentTypeService.findById(
+        appartment.appartmentTypeId,
+      );
+    }
 
     const { code, url } = await this.generateQrCode(newAppartment);
 
     newAppartment.key = code;
     newAppartment.qrCode = url;
 
-    return await this.appartmentRepository.save(newAppartment);
+    return this.appartmentRepository.save(newAppartment);
   }
 
   /**

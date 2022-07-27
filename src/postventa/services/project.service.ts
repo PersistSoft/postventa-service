@@ -12,10 +12,10 @@ export class ProjectService {
   ) {}
 
   async findByName(name: string) {
-    const project = await this.projectRepository.findOne({
-      where: { name },
-    });
-    return project;
+    return this.projectRepository
+      .createQueryBuilder('project')
+      .where('LOWER(project.name) = LOWER(:name)', { name })
+      .getOne();
   }
 
   create(project: CreateProjectDto) {

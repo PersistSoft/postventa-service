@@ -45,6 +45,8 @@ export class BulkService {
                 project,
               );
             }
+            console.log(apprtmentConstructionName);
+            console.log('building: ', building);
 
             if (apprtmentConstructionName) {
               await this.handleAppartment(apprtmentConstructionName, building);
@@ -127,10 +129,13 @@ export class BulkService {
     building: Building,
   ) {
     let appartment: Appartment = null;
+    console.log('handleAppartment', apprtmentConstructionName);
 
     if (!apprtmentConstructionName) {
       throw new Error(`Appartment name not valid.`);
     }
+
+    console.log('apprtmentConstructionName ', apprtmentConstructionName);
 
     appartment =
       await this.appartmentService.findByConstructionNameAndBuildingId(
@@ -142,9 +147,9 @@ export class BulkService {
       const newAppartment = new CreateAppartmentDto();
       newAppartment.constructionName = apprtmentConstructionName;
       newAppartment.buildingId = building.id;
-
+      
       appartment = await this.appartmentService.create(newAppartment);
-      console.info('A appartment was created: ', building);
+      console.info('A appartment was created: ', appartment);
     }
 
     if (!appartment) {
