@@ -1,25 +1,25 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateBuildingDto {
-  @IsEmail()
   @IsNotEmpty()
+  @IsString()
   @ApiProperty()
   name: string;
 
-  @IsEmail()
   @IsNotEmpty()
   @ApiProperty()
+  @IsNumber()
   projectId: number;
 
-  @IsEmail()
   @IsNotEmpty()
   @ApiProperty()
+  @IsNumber()
   numberOfAppartments: number;
 
-  @IsEmail()
   @IsNotEmpty()
   @ApiProperty()
+  @IsNumber()
   numberOfFloors: number;
 }
 

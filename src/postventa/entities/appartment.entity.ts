@@ -28,7 +28,7 @@ export class Appartment {
   @Column({ name: 'definitive_name', nullable: true })
   definitiveName: string;
 
-  @ManyToOne(() => Building, { nullable: true })
+  @ManyToOne(() => Building, { nullable: true, eager: true })
   @JoinColumn({ name: 'building_id' })
   building: Building;
 
