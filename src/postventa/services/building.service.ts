@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateBuildingDto } from '../dtos/building.dto';
+import { CreateBuildingDto, UpdateBuildingDto } from '../dtos/building.dto';
+import { BuildingFilterDto } from '../dtos/building.filter.dto';
 import { Building } from '../entities/building.entity';
 import { ProjectService } from './project.service';
 
@@ -50,5 +51,37 @@ export class BuildingService {
       .leftJoinAndSelect('buildings.project', 'project')
       .where(`buildings.project = ${id}`)
       .getMany();
+  }
+
+  findAll(params?: BuildingFilterDto) {
+    if (params?.limit && params?.offset) {
+      const { limit, offset } = params;
+      return this.buildingRepository.find({
+        take: limit,
+        skip: offset,
+      });
+    }
+
+    return this.buildingRepository.find();
+  }
+
+  async update(id: number, buildingDto: UpdateBuildingDto) {
+    const building = await this.buildingRepository.findOne({ id });
+
+    if (!building) {
+      throw new BadRequestException();
+    }
+
+    if (buildingDto.projectId) {
+      const project = await this.projectService.findById(buildingDto.projectId);
+      building.project = project;
+    }
+
+    this.buildingRepository.merge(building, buildingDto);
+    return this.buildingRepository.save(building);
+  }
+
+  deleteById(id: number) {
+    return this.buildingRepository.delete(id);
   }
 }

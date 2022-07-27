@@ -144,7 +144,7 @@ export class BulkService {
       newAppartment.buildingId = building.id;
 
       appartment = await this.appartmentService.create(newAppartment);
-      console.info('A appartment was created: ', building);
+      console.info('A appartment was created: ', appartment);
     }
 
     if (!appartment) {
